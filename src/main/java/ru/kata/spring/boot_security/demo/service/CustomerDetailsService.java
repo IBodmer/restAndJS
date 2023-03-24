@@ -17,15 +17,16 @@ public class CustomerDetailsService implements UserDetailsService, CustomerServi
         this.customerRepo = customerRepo;
     }
 
-    public Customer findByUsername(String username) {
-        return customerRepo.findByUsername(username);
+
+    public Customer findByUsername(String email) {
+        return customerRepo.findByEmail(email);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Customer customer = findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Customer customer = findByUsername(email);
         if (customer == null)
-            throw new UsernameNotFoundException(String.format("Пользователя '%s' не найдено", username));
+            throw new UsernameNotFoundException(String.format("Пользователя '%s' не найдено", email));
         return customer;
     }
 

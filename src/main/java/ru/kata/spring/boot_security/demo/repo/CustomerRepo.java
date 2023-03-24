@@ -6,5 +6,5 @@ import ru.kata.spring.boot_security.demo.models.Customer;
 
 @Repository
 public interface CustomerRepo extends JpaRepository<Customer, Long> {
-    Customer findByUsername(String username);
+    Customer findByEmail(String email);
 }
