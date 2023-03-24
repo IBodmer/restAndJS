@@ -13,7 +13,8 @@
     />
 </head>
 <body>
-<nav class="navbar bg-dark" th:data-bs-theme="'dark'" th:object="${customer}" th:anotherObject="${rolesWithoutBrackets}">
+<nav class="navbar bg-dark" th:data-bs-theme="'dark'" th:object="${customer}"
+     th:anotherObject="${rolesWithoutBrackets}">
     <div class="container-fluid">
         <a class="navbar-brand" th:text="${customer.getEmail() + ' with roles: ' + rolesWithoutBrackets}"></a>
         <form class="d-flex">
@@ -68,8 +69,8 @@
                                             <th scope="col">Id</th>
                                             <th scope="col">First Name</th>
                                             <th scope="col">Last Name</th>
-                                            <th scope="col">Age</th>
                                             <th scope="col">Email</th>
+                                            <th scope="col">Age</th>
                                             <th scope="col">Role</th>
                                             <th scope="col">Edit</th>
                                             <th scope="col">Delete</th>
@@ -83,6 +84,46 @@
                                             <td th:text="${customer.email}"></td>
                                             <td th:text="${customer.age}"></td>
                                             <td th:text="${rolesWithoutBrackets}"></td>
+                                            <td>
+                                                <!-- Кнопка-триггер модального окна -->
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal">
+                                                    Edit
+                                                </button>
+
+
+                                                <!-- Модальное окно -->
+                                                <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
+                                                                <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Закрыть"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>СЮДА НАДО ВСТАВИТЬ СОЗДАНИЕ НОВОГО ЮЗЕРА</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary">Save
+                                                                </button>
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td><a
+                                                    th:href="@{delete}"
+                                                    class="btn btn-primary btn-danger"
+                                                    role="button"
+                                                    aria-pressed="true"
+                                            >Delete</a></td>
                                         </tbody>
                                     </table>
                                 </div>
