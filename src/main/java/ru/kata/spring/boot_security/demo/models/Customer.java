@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -60,5 +61,9 @@ public class Customer implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+    public String getRolesWithoutBrackets (List<Role> someList) {
+        return someList.stream().map(x -> x.toString().replace("[", "")
+                .replace("]", "")).map(x -> x.substring(5)).collect(Collectors.joining(", "));
     }
 }
