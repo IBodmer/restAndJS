@@ -129,7 +129,9 @@
                                     aria-label="Закрыть"></button>
                         </div>
 
-                        <form>
+                        <form th:action="@{edit/{id} (id=${customer.getId()})}"
+                              th:method="Patch"
+                              id="editFormBody">
                             <div class="row m-3">
                                 <label for="firstNameForm" class="col-form-label col-sm-3"
                                        th:text="'First ' + 'Name:'"/>
@@ -174,21 +176,21 @@
                                            id="ageForm"/>
                                 </div>
                             </div>
-                            <div class="col-sm-3 m-4">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                    <label class="form-check-label" for="inlineCheckbox1">1</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                                    <label class="form-check-label" for="inlineCheckbox2">2</label>
-                                </div>
+                            <div class="form-group m-3" readonly="readonly">
+                                <label for="rolesEdit">Role</label>
+                                <select class="form-select w-100" multiple
+                                        size="2"
+                                        id="rolesEdit"
+                                        name="userRolesSelector">
+                                    <option th:each="role: ${allPossibleRolesWithOutPrefix}"
+                                            th:text="${role.toString()}"
+                                            selected>
+                                    </option>
+                                </select>
                             </div>
                         </form>
-
-
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Save
+                            <button type="submit" class="btn btn-primary">Save
                             </button>
                             <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Close

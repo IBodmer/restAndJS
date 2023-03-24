@@ -29,6 +29,14 @@ public class CustomerDetailsService implements UserDetailsService, CustomerServi
             throw new UsernameNotFoundException(String.format("Пользователя '%s' не найдено", email));
         return customer;
     }
+    public void update(Long id, Customer customer) {
+        Customer customer1 = customerRepo.findById(id).orElseThrow(() -> new RuntimeException("ne po plany"));
+        customer1.setFirstName(customer.getFirstName());
+        customer1.setLastName(customer.getLastName());
+        customer1.setEmail(customer.getEmail());
+        customer1.setAge(customer.getAge());
+        customerRepo.save(customer1);
+    }
 
     @Override
     public Customer saveCustomer(Customer customer) {

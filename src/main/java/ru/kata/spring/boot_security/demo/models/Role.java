@@ -1,10 +1,8 @@
 package ru.kata.spring.boot_security.demo.models;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -15,6 +13,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +29,12 @@ public class Role implements GrantedAuthority {
     @Override
     public String toString() {
         return role;
+    }
+
+    @Bean
+    public Role roleWithOutPrefix(Role role) {
+        return Role.builder()
+                .role(role.getRole().substring(5))
+                .build();
     }
 }
