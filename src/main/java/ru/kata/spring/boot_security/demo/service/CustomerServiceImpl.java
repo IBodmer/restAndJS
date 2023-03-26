@@ -2,8 +2,10 @@ package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.models.Customer;
+import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.repo.CustomerRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,4 +44,5 @@ public class CustomerServiceImpl implements CustomerService {
     public List<Customer> findAllCustomers() {
         return customerRepo.findAll();
     }
+
 }

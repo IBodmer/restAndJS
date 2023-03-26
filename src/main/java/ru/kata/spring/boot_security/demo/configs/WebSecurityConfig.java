@@ -26,14 +26,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll() // доступность всем
-                .antMatchers("/user/**").hasAnyRole("USER","ADMIN") // разрешаем входить на /user пользователям с ролью User
+                .antMatchers("/login").permitAll()
+                .antMatchers("/user/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")// Spring сам подставит свою логин форму
-                .successHandler(successUserHandler) // подключаем наш SuccessHandler для перенаправления по ролям
+                .loginPage("/login")
+                .successHandler(successUserHandler)
                 .and()
                 .logout()
                 .logoutSuccessUrl("/");
