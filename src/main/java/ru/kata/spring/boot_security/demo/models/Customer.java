@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,16 +23,16 @@ public class Customer implements UserDetails {
     private Long id;
     private String password;
     @Column(name = "first_name")
-    private String firstName;
+    private String firstname;
     @Column(name = "last_name")
-    private String lastName;
+    private String lastname;
     private String email;
     private Integer age;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name = "customers_roles",
             joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private List<Role> roles;
+    private List<Role> roles = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -62,8 +63,15 @@ public class Customer implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    public String getRolesWithoutBrackets (List<Role> someList) {
-        return someList.stream().map(x -> x.toString().replace("[", "")
-                .replace("]", "")).map(x -> x.substring(5)).collect(Collectors.joining(", "));
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    public List<String> getNameRoles() {
+        return this.roles.stream().map(Role::getRole).map(x->x.substring(5)).collect(Collectors.toList());
+    }
+    public String getAllRolesWithOutBrackets (List<Role> roles){
+        return roles.stream().map(Role::getRole).map(x->x.substring(5)).collect(Collectors.joining(", "));
     }
 }

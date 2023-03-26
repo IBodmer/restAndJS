@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -28,7 +29,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return role;
+        return role.substring(5);
     }
 
     @Bean
