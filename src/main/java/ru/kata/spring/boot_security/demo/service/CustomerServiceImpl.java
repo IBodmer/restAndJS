@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.models.Customer;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.repo.CustomerRepo;
@@ -16,6 +17,7 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepo = customerRepo;
     }
 
+    @Transactional
     public void update(Long id, Customer customer) {
         Customer customer1 = customerRepo.findById(id).orElseThrow(() -> new RuntimeException("ne po plany"));
         customer1.setFirstname(customer.getFirstname());
@@ -25,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer1.setRoles(customer.getRoles());
         customerRepo.save(customer1);
     }
-
+    @Transactional
     @Override
     public void deleteCustomer(Long id) {
         customerRepo.deleteById(id);
@@ -34,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer findByUsername(String email) {
         return customerRepo.findByEmail(email);
     }
-
+    @Transactional
     @Override
     public Customer saveCustomer(Customer customer) {
         return customerRepo.save(customer);
