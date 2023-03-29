@@ -5,9 +5,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -32,7 +33,7 @@ public class Customer implements UserDetails {
     @JoinTable(name = "customers_roles",
             joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -71,7 +72,7 @@ public class Customer implements UserDetails {
     public List<String> getNameRoles() {
         return this.roles.stream().map(Role::getRole).map(x->x.substring(5)).collect(Collectors.toList());
     }
-    public String getAllRolesWithOutBrackets (List<Role> roles){
+    public String getAllRolesWithOutBrackets (Set<Role> roles){
         return roles.stream().map(Role::getRole).map(x->x.substring(5)).collect(Collectors.joining(", "));
     }
 }
