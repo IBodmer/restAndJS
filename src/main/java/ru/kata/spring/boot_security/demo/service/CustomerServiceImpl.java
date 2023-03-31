@@ -2,19 +2,22 @@ package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.dto.CustomerDTO;
 import ru.kata.spring.boot_security.demo.models.Customer;
-import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.repo.CustomerRepo;
+import ru.kata.spring.boot_security.demo.repo.RoleRepo;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepo customerRepo;
+    private final RoleRepo repo;
 
-    public CustomerServiceImpl(CustomerRepo customerRepo) {
+    public CustomerServiceImpl(CustomerRepo customerRepo, RoleRepo repo) {
         this.customerRepo = customerRepo;
+        this.repo = repo;
     }
 
     @Transactional
@@ -27,6 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer1.setRoles(customer.getRoles());
         customerRepo.save(customer1);
     }
+
     @Transactional
     @Override
     public void deleteCustomer(Long id) {
@@ -36,15 +40,24 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer findByUsername(String email) {
         return customerRepo.findByEmail(email);
     }
+
     @Transactional
     @Override
-    public Customer saveCustomer(Customer customer) {
-        return customerRepo.save(customer);
+    public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
+        Customer customer = Customer.builder()
+                .firstname(customerDTO.getFirstname())
+                .lastname(customerDTO.getLastname())
+                .age(customerDTO.getAge())
+                .email(customerDTO.getEmail())
+                .roles(customerDTO.getRoles().stream().map(x->repo.findByRole(x.getRole())).collect(Collectors.toSet()))
+                .build();
+        customerRepo.save(customer);
+        return customerDTO;
     }
 
     @Override
-    public List<Customer> findAllCustomers() {
-        return customerRepo.findAll();
+    public List<CustomerDTO> findAllCustomers() {
+        return customerRepo.findAll().stream().map(Customer::toCustomerDTO).collect(Collectors.toList());
     }
 
 }

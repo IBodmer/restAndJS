@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.models;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.kata.spring.boot_security.demo.dto.CustomerDTO;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -74,5 +75,8 @@ public class Customer implements UserDetails {
     }
     public String getAllRolesWithOutBrackets (Set<Role> roles){
         return roles.stream().map(Role::getRole).map(x->x.substring(5)).collect(Collectors.joining(", "));
+    }
+    public CustomerDTO toCustomerDTO() {
+        return CustomerDTO.toCustomerDTO(this);
     }
 }

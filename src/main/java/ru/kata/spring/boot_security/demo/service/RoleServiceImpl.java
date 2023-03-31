@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.stereotype.Service;
+import ru.kata.spring.boot_security.demo.dto.RoleDTO;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.repo.RoleRepo;
 
@@ -27,4 +28,5 @@ public class RoleServiceImpl implements RoleService {
     public Role getRoleById(Long id) {
        return repo.findRoleById(id);
     }
+
 }
