@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dto.CustomerDTO;
+import ru.kata.spring.boot_security.demo.exeptions.CustomerNotFoundException;
 import ru.kata.spring.boot_security.demo.models.Customer;
 import ru.kata.spring.boot_security.demo.repo.CustomerRepo;
 import ru.kata.spring.boot_security.demo.repo.RoleRepo;
@@ -20,21 +21,9 @@ public class CustomerServiceImpl implements CustomerService {
         this.repo = repo;
     }
 
-    @Transactional
-    public void update(Long id, Customer customer) {
-        Customer customer1 = customerRepo.findById(id).orElseThrow(() -> new RuntimeException("ne po plany"));
-        customer1.setFirstname(customer.getFirstname());
-        customer1.setLastname(customer.getLastname());
-        customer1.setEmail(customer.getEmail());
-        customer1.setAge(customer.getAge());
-        customer1.setRoles(customer.getRoles());
-        customerRepo.save(customer1);
-    }
-
-    @Transactional
     @Override
-    public void deleteCustomer(Long id) {
-        customerRepo.deleteById(id);
+    public List<CustomerDTO> findAllCustomers() {
+        return customerRepo.findAll().stream().map(Customer::toCustomerDTO).collect(Collectors.toList());
     }
 
     public Customer findByUsername(String email) {
@@ -49,15 +38,31 @@ public class CustomerServiceImpl implements CustomerService {
                 .lastname(customerDTO.getLastname())
                 .age(customerDTO.getAge())
                 .email(customerDTO.getEmail())
-                .roles(customerDTO.getRoles().stream().map(x->repo.findByRole(x.getRole())).collect(Collectors.toSet()))
+                .roles(customerDTO.getRoles().stream().map(x -> repo.findByRole(x.getRole())).collect(Collectors.toSet()))
                 .build();
         customerRepo.save(customer);
         return customerDTO;
     }
 
+    @Transactional
     @Override
-    public List<CustomerDTO> findAllCustomers() {
-        return customerRepo.findAll().stream().map(Customer::toCustomerDTO).collect(Collectors.toList());
+    public CustomerDTO updateCustomer(Long id, CustomerDTO customerDTO) {
+        Customer customer = customerRepo
+                .findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Пользователя: " + customerDTO.getEmail() + " не найдено"));
+        customer.setFirstname(customerDTO.getFirstname());
+        customer.setLastname(customerDTO.getLastname());
+        customer.setEmail(customerDTO.getEmail());
+        customer.setAge(customerDTO.getAge());
+        customer.setRoles(customerDTO.getRoles().stream().map(x -> repo.findByRole(x.getRole())).collect(Collectors.toSet()));
+        customerRepo.save(customer);
+        return customerDTO;
+    }
+
+    @Transactional
+    @Override
+    public void deleteCustomer(Long id) {
+        customerRepo.deleteById(id);
     }
 
 }
