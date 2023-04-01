@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Builder
 @AllArgsConstructor
 public class CustomerDTO {
+    private Long id;
     private String firstname;
     private String lastname;
     private String email;
@@ -24,6 +25,7 @@ public class CustomerDTO {
 
     public static CustomerDTO toCustomerDTO(Customer customer) {
         return CustomerDTO.builder()
+                .id(customer.getId())
                 .firstname(customer.getFirstname())
                 .lastname(customer.getLastname())
                 .email(customer.getEmail())

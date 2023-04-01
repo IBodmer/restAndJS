@@ -8,6 +8,7 @@ import ru.kata.spring.boot_security.demo.models.Customer;
 import ru.kata.spring.boot_security.demo.repo.CustomerRepo;
 import ru.kata.spring.boot_security.demo.repo.RoleRepo;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDTO> findAllCustomers() {
-        return customerRepo.findAll().stream().map(Customer::toCustomerDTO).collect(Collectors.toList());
+        return customerRepo.findAll().stream().map(Customer::toCustomerDTO).sorted(Comparator.comparing(CustomerDTO::getId)).collect(Collectors.toList());
     }
 
     public Customer findByUsername(String email) {

@@ -43,8 +43,8 @@ public class AdminController {
     }
 
     @GetMapping("/principal")
-    public ResponseEntity<Customer> getCustomerForFront(Principal principal) {
-        return ResponseEntity.status(HttpStatus.OK).body(customerService.findByUsername(principal.getName()));
+    public ResponseEntity<Customer> getCustomerForFront() {
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.findByUsername("pewpew308@gmail.com"));
     }
 
 }
