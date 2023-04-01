@@ -1,11 +1,11 @@
-$(async function () {
+
+$(async function getMyLoad() {
     await getCustomers();
-    await infoUser();
+    await infoCustomer();
     // await tittle();
     // await getNewUserForm();
     // await getDefaultModal();
     // await createUser();
-
 })
 
 const userFetch = {
@@ -47,9 +47,6 @@ async function getCustomers() {
                         <td>${customer.email}</td>
                         <td>${customer.age}</td>
                         <td>${customer.roles.map(r => r.role.substring(5))}</td>
-                        <td> </td>
-                        
-                    
             `;
                 }
             )
@@ -58,7 +55,7 @@ async function getCustomers() {
 
 }
 
-async function infoUser() {
+async function infoCustomer() {
     let temp = '';
     let info = document.querySelector('#letstry');
     await userFetch.findUserByUsername()
@@ -79,4 +76,12 @@ async function infoUser() {
         });
     info.innerHTML = temp;
 }
-
+const myModal = new bootstrap.Modal(document.getElementById('MyModal'))
+const formModal = document.querySelector('#formId1')
+const firstName = document.querySelector('#firstnameModal')
+const lastName = document.querySelector('#lastnameModal')
+const emailModal = document.querySelector('#emailModal')
+let opt = ''
+buttonTest.addEventListener('click', () => {
+    myModal.show()
+})
