@@ -11,7 +11,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/v1")
 public class AdminController {
     private final CustomerService customerService;
 
@@ -20,7 +20,7 @@ public class AdminController {
     }
 
 
-    @GetMapping
+    @GetMapping("/users")
     public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.findAllCustomers());
     }
@@ -30,20 +30,26 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.saveCustomer(customerDTO));
     }
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/user/update/{id}")
     public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.updateCustomer(id, customerDTO));
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/user/delete/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping("/principal")
-    public ResponseEntity<Customer> getCustomerForFront() {
+    @GetMapping("user/{id}")
+    public ResponseEntity<CustomerDTO> getUser(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.getById(id));
+
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<Customer> getCustomerForFront(Principal principal) {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.findByUsername("pewpew308@gmail.com"));
     }
 

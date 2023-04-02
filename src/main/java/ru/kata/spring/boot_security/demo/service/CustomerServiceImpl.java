@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.service;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dto.CustomerDTO;
@@ -10,6 +11,7 @@ import ru.kata.spring.boot_security.demo.repo.RoleRepo;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,4 +68,8 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepo.deleteById(id);
     }
 
+    @Override
+    public CustomerDTO getById(long id) {
+        return CustomerDTO.toCustomerDTO(customerRepo.findById(id).orElseThrow(() -> new UsernameNotFoundException("Такого пользователя не найдено")));
+    }
 }
