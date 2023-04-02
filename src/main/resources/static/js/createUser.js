@@ -1,10 +1,10 @@
-async function createCustomer() {
+async function createUser() {
     $('#addUser').click(async () =>  {
-        let addCustomerForm = $('#addForm')
-        let firstname = addCustomerForm.find('#firstnameCreate').val().trim();
-        let lastname = addCustomerForm.find('#lastnameCreate').val().trim();
-        let age = addCustomerForm.find('#ageCreate').val().trim();
-        let email = addCustomerForm.find('#emailCreate').val().trim();
+        let addUserForm = $('#addForm')
+        let firstname = addUserForm.find('#firstnameCreate').val().trim();
+        let lastname = addUserForm.find('#lastnameCreate').val().trim();
+        let age = addUserForm.find('#ageCreate').val().trim();
+        let email = addUserForm.find('#emailCreate').val().trim();
         let checkedRoles = () => {
             let array = []
             let options = document.querySelector('#rolesCreate').options
@@ -16,28 +16,28 @@ async function createCustomer() {
             return array;
         }
         let data = {
-            "firstname": firstname,
-            "lastname": lastname,
-            "age": age,
-            "email": email,
-            "roles": checkedRoles()
+            firstname: firstname,
+            lastname: lastname,
+            age: age,
+            email: email,
+            roles: checkedRoles()
         }
 
         const response = await userFetch.addNewUser(data);
         if (response.ok) {
-            await getCustomers();
-            addCustomerForm.find('#firstnameCreate').val('');
-            addCustomerForm.find('#lastnameCreate').val('');
-            addCustomerForm.find('#ageCreate').val('');
-            addCustomerForm.find('#emailCreate').val('');
-            addCustomerForm.find(checkedRoles()).val('');
+            await getUsers();
+            addUserForm.find('#firstnameCreate').val('');
+            addUserForm.find('#lastnameCreate').val('');
+            addUserForm.find('#ageCreate').val('');
+            addUserForm.find('#emailCreate').val('');
+            addUserForm.find(checkedRoles()).val('');
             let alert = `<div class="alert alert-success alert-dismissible fade show col-12" role="alert" id="successMessage">
                          User create successful!
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>`;
-            addCustomerForm.prepend(alert);
+            addUserForm.prepend(alert);
             $('.nav-tabs a[href="#adminTable"]').tab('show');
         } else {
             let body = await response.json();
@@ -47,7 +47,7 @@ async function createCustomer() {
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>`;
-            addCustomerForm.prepend(alert);
+            addUserForm.prepend(alert);
         }
     });
 }

@@ -11,7 +11,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 public class AdminController {
     private final CustomerService customerService;
 
@@ -50,7 +50,7 @@ public class AdminController {
 
     @GetMapping("/user")
     public ResponseEntity<Customer> getCustomerForFront(Principal principal) {
-        return ResponseEntity.status(HttpStatus.OK).body(customerService.findByUsername("pewpew308@gmail.com"));
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.findByUsername(principal.getName()));
     }
 
 }

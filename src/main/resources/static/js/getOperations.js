@@ -1,25 +1,25 @@
-async function getCustomer() {
+async function getUser() {
     let temp = '';
     const table = document.querySelector('#tableUser tbody');
     await userFetch.findUserByUsername()
         .then(res => res.json())
-        .then(customer => {
+        .then(user => {
             temp = `
                 <tr>
-                    <td>${customer.id}</td>
-                    <td>${customer.firstname}</td>
-                    <td>${customer.lastname}</td>
-                    <td>${customer.age}</td>
-                    <td>${customer.email}</td>
-                    <td>${customer.roles.map(e => " " + e.role.substring(5))}</td>
+                    <td>${user.id}</td>
+                    <td>${user.firstname}</td>
+                    <td>${user.lastname}</td>
+                    <td>${user.age}</td>
+                    <td>${user.email}</td>
+                    <td>${user.roles.map(e => " " + e.role.substring(5))}</td>
                 </tr>
             `;
             table.innerHTML = temp;
 
             $(function (){
                 let role = ""
-                for (let i = 0; i < customer.roles.length; i++) {
-                    role = customer.roles[i].role
+                for (let i = 0; i < user.roles.length; i++) {
+                    role = user.roles[i].role
                     if (role === "ROLE_ADMIN") {
                         isUser = false;
                     }
@@ -51,27 +51,27 @@ async function tittle() {
     }
 }
 
-async function getCustomers() {
+async function getUsers() {
     let temp = '';
     const table = document.querySelector('#tableAllUsers tbody');
     await userFetch.findAllUsers()
         .then(res => res.json())
-        .then(customers => {
-            customers.forEach(customer => {
+        .then(users => {
+            users.forEach(user => {
                 temp += `
                 <tr>
-                    <td>${customer.id}</td>
-                    <td>${customer.firstname}</td>
-                    <td>${customer.lastname}</td>
-                    <td>${customer.age}</td>
-                    <td>${customer.email}</td>
-                    <td>${customer.roles.map(e => " " + e.role.substring(5))}</td>
+                    <td>${user.id}</td>
+                    <td>${user.firstname}</td>
+                    <td>${user.lastname}</td>
+                    <td>${user.age}</td>
+                    <td>${user.email}</td>
+                    <td>${user.roles.map(e => " " + e.role.substring(5))}</td>
                     <td>
-                        <button type="button" data-userid="${customer.id}" data-action="edit" class="btn btn-info"
+                        <button type="button" data-userid="${user.id}" data-action="edit" class="btn btn-info"
                             className data-toggle="modal" data-target="#editModal">Edit</button>
                     </td>
                     <td>
-                        <button type="button" data-userid="${customer.id}" data-action="delete" class="btn btn-danger"
+                        <button type="button" data-userid="${user.id}" data-action="delete" class="btn btn-danger"
                             className data-toggle="modal" data-target="#deleteModal">Delete</button>
                     </td>
                 </tr>
@@ -94,7 +94,7 @@ async function getCustomers() {
     })
 }
 
-async function getNewCustomerForm() {
+async function getNewUserForm() {
     let button = $(`#addUser`);
     let form = $(`#addForm`)
     button.on('click', () => {
@@ -113,7 +113,7 @@ async function getDefaultModal() {
         let action = thisModal.attr('data-action');
         switch (action) {
             case 'edit':
-                editCustomer(thisModal, userid);
+                editUser(thisModal, userid);
                 break;
             case 'delete':
                 deleteUser(thisModal, userid);

@@ -18,13 +18,13 @@ async function deleteUser(modal, id) {
                </div>
                    
                <div class="form-group">
-                    <label for="username" class="col-form-label">Username</label>
-                    <input type="text" class="form-control username" id="username" value="${user.firstname}" readonly>
+                    <label for="firstname" class="col-form-label">First Name</label>
+                    <input type="text" class="form-control username" id="firstname" value="${user.firstname}" readonly>
                </div>
 
                 <div class="form-group">
-                    <label for="name" class="com-form-label">Name</label>
-                    <input type="text" class="form-control" id="name" value="${user.lastname}" readonly>
+                    <label for="lastname" class="com-form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastname" value="${user.lastname}" readonly>
                 </div>
 
                 <div class="form-group">
@@ -39,8 +39,7 @@ async function deleteUser(modal, id) {
                     <label for="email" class="com-form-label">Email</label>
                     <input type="text" class="form-control" id="email" value="${user.email}"  readonly>
                 </div>
-                
-
+            </div>
 
             </form>
         `;
@@ -51,7 +50,7 @@ async function deleteUser(modal, id) {
         const response = await userFetch.deleteUser(id);
 
         if (response.ok) {
-            await getCustomers();
+            await getUsers();
             modal.modal('hide');
         } else {
             let body = await response.json();

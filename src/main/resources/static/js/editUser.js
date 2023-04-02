@@ -1,4 +1,4 @@
-async function editCustomer(modal, id) {
+async function editUser(modal, id) {
     let oneUser = await userFetch.findOneUser(id);
     let user = oneUser.json();
 
@@ -9,33 +9,32 @@ async function editCustomer(modal, id) {
     modal.find('.modal-footer').append(editButton);
     modal.find('.modal-footer').append(closeButton);
 
-    user.then(customer => {
+    user.then(user => {
         let bodyForm = `
             <form class="form-group text-center" id="editUser">
                <div class="form-group">
-                    <label for="CustomerId" class="col-form-label">ID</label>
-                    <input type="text" class="form-control username" id="CustomerId" value="${customer.id}" readonly>
+                    <label for="userId" class="col-form-label">ID</label>
+                    <input type="text" class="form-control username" id="userId" value="${user.id}" readonly>
                </div>
                    
                <div class="form-group">
                     <label for="firstname" class="col-form-label">First Name</label>
-                    <input type="text" class="form-control username" id="firstname" value="${customer.firstname}">
+                    <input type="text" class="form-control username" id="firstname" value="${user.firstname}">
                </div>
 
                 <div class="form-group">
                     <label for="lastname" class="com-form-label">Last Name</label>
-                    <input type="text" class="form-control" id="lastname" value="${customer.lastname}">
+                    <input type="text" class="form-control" id="lastname" value="${user.lastname}">
                 </div>
 
-           
                 <div class="form-group">
                     <label for="age" class="com-form-label">Age</label>
-                    <input type="number" class="form-control" id="age" value="${customer.age}">
+                    <input type="number" class="form-control" id="age" value="${user.age}">
                 </div>
 
                 <div class="form-group">
                     <label for="email" class="com-form-label">Email</label>
-                    <input type="text" class="form-control" id="email" value="${customer.email}">
+                    <input type="text" class="form-control" id="email" value="${user.email}">
                 </div>
                 
                 <div class="form-group">
@@ -61,13 +60,13 @@ async function editCustomer(modal, id) {
             }
             return array;
         }
-        let customerID = modal.find("#CustomerId").val().trim();
+        let userId = modal.find("#userId").val().trim();
         let firstname = modal.find("#firstname").val().trim();
         let lastname = modal.find("#lastname").val().trim();
         let age = modal.find("#age").val().trim();
         let email = modal.find("#email").val().trim();
         let data = {
-            id: customerID,
+            userId: userId,
             firstname: firstname,
             lastname: lastname,
             age: age,
@@ -78,7 +77,7 @@ async function editCustomer(modal, id) {
         const response = await userFetch.updateUser(data, id);
 
         if (response.ok) {
-            await getCustomers();
+            await getUsers();
             modal.modal('hide');
         } else {
             let body = await response.json();
